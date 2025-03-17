@@ -16,8 +16,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -58,18 +60,18 @@ fun DemoSlider(sliderPosition: Float, onPositionChange: (Float) -> Unit){
 
 @Composable
 fun DemoScreen(modifier: Modifier = Modifier){
-    val sliderPosition = remember { mutableFloatStateOf(30f) }
-    val handlePositionChange = { position: Float -> (sliderPosition.floatValue) = position }
+    var sliderPosition by remember { mutableFloatStateOf(30f) }
+    val handlePositionChange = { position: Float -> sliderPosition = position }
 
     Column (horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()) {
+            modifier = modifier.fillMaxSize()) {
         
-        DemoText(message = "Welcome to Compose", fontSize = sliderPosition.floatValue)
+        DemoText(message = "Welcome to Compose", fontSize = sliderPosition)
         Spacer(modifier = Modifier.height(100.dp))
-        DemoSlider(sliderPosition = sliderPosition.floatValue, onPositionChange = handlePositionChange)
+        DemoSlider(sliderPosition = sliderPosition, onPositionChange = handlePositionChange)
         Text(style = MaterialTheme.typography.headlineMedium,
-             text = sliderPosition.floatValue.toInt().toString() + "sp")
+             text = sliderPosition.toInt().toString() + "sp")
     }
 }
 @Preview(
